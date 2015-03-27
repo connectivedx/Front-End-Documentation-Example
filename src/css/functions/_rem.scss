@@ -1,0 +1,28 @@
+/// Converts a target value in pixels to its associated value in rems based on the $baseFontSize.
+/// @param {Integer | Pixels | List} $target - The target size in either pixels or its integer equivalent.
+/// @return {Rem} The target's value in rems based on the $baseFontSize.
+/// @example
+/// rem(12)
+/// // 0.75em
+/// @example
+/// rem(12 16)
+/// // 0.75em 1em
+@function rem($target) {
+	@if type-of($target) == list {
+
+		$output: unquote('') !default;
+
+		@each $value in $target {
+			$value: rem($value);
+
+			$output: append($output, $value);
+		}
+	}
+	@else {
+		$target: parseInt($target);
+
+		$output: ($target / $baseFontSize) * 1rem;
+	}
+
+	@return $output;
+}

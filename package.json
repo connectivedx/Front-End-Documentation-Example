@@ -1,0 +1,20 @@
+{
+  "name": "Front-End-Documentation-Example",
+  "version": "1.0.0",
+  "description": "Dependencies to create basic API docs and a style guide with Sassdoc and Styledown.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/isitedesign/Front-End-Documentation-Example.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isitedesign/Front-End-Documentation-Example/issues"
+  },
+  "homepage": "https://github.com/isitedesign/Front-End-Documentation-Example",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-sass": "^1.3.3",
+    "gulp-styledown": "0.0.2",
+    "sassdoc": "^2.1.7"
+  }
+}

@@ -1,0 +1,112 @@
+/**
+ * Default Button:
+ * `%button-config`<br>Sets up default buttons styles. Applied to `button` and `.btn`. Additional button styles extend this.
+ *
+ *		@example
+ *		<div>
+ *			<button>I&rsquo;m a Button</button>
+ *			<a class="btn">I&rsquo;m a link</a>
+ *		</div>
+ */
+
+%button-config {
+	border-style: none;
+	color: white;
+	display: inline-block;
+	font-family: $baseFontFamily;
+	@include font-size(18);
+	margin-right: em(5, (context: 18));
+	padding: em(6 12, (context: 18));
+	text-align: center;
+	text-decoration: none;
+
+	/**
+	 * Full Width Button:
+	 * `.btn-full-width`<br>Extends `%button-config` to display the full width of its parent.
+	 *
+	 *		@example
+	 *		<div>
+ 	 *			<a class="btn btn-full-width">Full Width Primary Button</a>
+ 	 *			<a class="btn-secondary btn-full-width">Full Width Secondary Button</a>
+ 	 *		</div>
+	 */
+	&.btn-full-width {
+		display: block;
+		margin-right: 0;
+		margin-top: em(16);
+		text-align: center;
+
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+
+	/**
+	 * Button Small:
+	 * `.btn-small`
+	 *	<br> A smaller version of the default button style, used in conjunction with `.btn`.
+	 *
+	 *		@example
+ 	 *		<a class="btn btn-small">Small Primary Button</a>
+ 	 *		<a class="btn-secondary btn-small">Small Secondary Button</a>
+	 */
+	&.btn-small {
+		@include font-size(14);
+		padding: em(6 12, (context: 14));
+	}
+
+	// sibling buttons may be too wide on low resolutions and wrap to multiple lines
+	+ button,
+	+ .btn {
+		margin-top: em(5);
+	}
+	// media mixin is used here instead of inside above selector due to @extend bug of libsass
+	@include media(medium) {
+		+ button,
+		+ .btn {
+			margin-top: 0;
+		}
+	}
+}
+
+button,
+.btn {
+	@extend %button-config;
+	background-color: color(primary);
+	border: 1px solid darken(color(primary), 10%);
+
+	&:hover,
+	&:active,
+	&:focus {
+		background-color: lighten(color(primary), 10%);
+	}
+
+	@include media(print) {
+		display: none;
+	}
+}
+
+
+/**
+ * Button Secondary:
+ * `.btn-secondary` <br> Extends `%button-config` to use secondary color scheme
+ *
+ *     @example
+ *     <a class="btn-secondary">Click Me</a>
+ */
+.btn-secondary {
+	@extend %button-config;
+	background-color: color(secondary);
+	border: 1px solid darken(color(secondary), 10%);
+	color: black;
+
+	&:hover,
+	&:active,
+	&:focus {
+		background-color: lighten(color(secondary), 10%);
+	}
+
+	@include media(print) {
+		display: none;
+	}
+}

@@ -1,0 +1,14 @@
+/// The breakpoints for all resolutions represented as pairs with the breakpoint name and its associated pixel width.
+/// @type Map
+/// @prop {Pixels} extraSmall [320px]
+/// @prop {Pixels} small [480px]
+/// @prop {Pixels} medium [768px]
+/// @prop {Pixels} large [960px]
+/// @prop {Pixels} extraLarge [1220px]
+$breakpoints: (
+	extraSmall: 320px,
+	small: 480px,
+	medium: 768px,
+	large: 960px,
+	extraLarge: 1220px
+);

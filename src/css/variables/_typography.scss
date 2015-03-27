@@ -1,0 +1,19 @@
+////
+/// @group typography
+////
+
+/// The base font-size for the root html element.
+/// @type Integer
+$baseFontSize: 16;
+
+/// The percentage of the font-size to be used on the root html element.
+/// @type Percentage
+$baseFontPercentage: percentage($baseFontSize / 16);
+
+/// The base line height for the root html element.
+/// @type Number
+$lineHeight: 1.5;
+
+/// The base font-family for the root html element.
+/// @type String
+$baseFontFamily: 'Source Sans Pro', Helvetica, Arial, sans-serif;

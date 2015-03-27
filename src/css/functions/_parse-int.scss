@@ -1,0 +1,10 @@
+/// Returns a unitless integer equivalent a measurement.
+/// @param {Pixels | Em | Percentage} $n - A measurement of any kind.
+/// @return {Integer} Integer equivalent of $n.
+/// @example
+/// parseInt(16px)
+/// // 16
+/// @link http://hugogiraudel.com/2013/03/18/ultimate-rem-mixin/
+@function parseInt($n) {
+	@return $n / ($n * 0 + 1);
+}
