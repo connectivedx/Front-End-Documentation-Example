@@ -1,0 +1,46 @@
+/**
+ * # Styleguide options
+ *
+ * ### Head
+ *
+ *		meta(name="viewport" content="width=device-width, initial-scale=1")
+ *		link(rel="stylesheet" href="../../dist/css/style.css")
+ *		link(rel='stylesheet' href='https://cdn.rawgit.com/styledown/styledown/v1.0.0/data/styledown.css')
+ *		link(rel="stylesheet" href="../../dist/css/style-guide.css")
+ *		link(rel='icon' type='image/png' href='../../dist/img/content/favicon.png')
+ *		link(rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700")
+ *		script(src='https://cdn.rawgit.com/styledown/styledown/v1.0.0/data/styledown.js')
+ *
+ * ### Body
+ *
+ *		section.wrapper
+ *			div.row
+ *				h1 PDXSass Style Guide Demo
+ *
+ *			div.row
+ *				div#styleguides.sg-container(sg-content)
+ *
+ *		script(src='http://code.jquery.com/jquery.js')
+ *		script(src='../../dist/js/style-guide.js')
+ *
+ */
+
+button.sg-expando {
+	&:hover,
+	&:focus,
+	&:active {
+		background-color: transparent;
+	}
+}
+
+.sg-section-table-of-contents .sg-code,
+.sg-section-table-of-contents .sg-expando {
+	display: none;
+}
+
+code.sg:first-child,
+code.sg {
+	background-color: #f0f0f0;
+	border: 1px solid #e0e0e0;
+	color: #555;
+}
