@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 		styledown: {
 			build: {
 				files: {
-					'./documentation/style-guide/grunt.html': ['src/css/modules/_buttons.scss']
+					'./documentation/style-guide/grunt.html': ['src/css/style.scss', 'src/css/modules/_buttons.scss']
 				},
 				options: {
 					config: 'src/css/style-guide.scss',

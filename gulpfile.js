@@ -14,8 +14,8 @@ gulp.task('sassdoc', function() {
 });
 
 gulp.task('styledown', function() {
-	// typically you'd glob everything here, but for this demo, we're keeping it pointed
-	return gulp.src('./src/css/modules/*.scss')
+	// typically you'd glob everything here, but for this demo, we'll keep things obvious
+	return gulp.src(['./src/css/style.scss', './src/css/**/*.scss'])
 		.pipe(styledown({
 			config: './src/css/style-guide.scss',
 			filename: 'gulp.html'
