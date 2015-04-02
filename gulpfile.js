@@ -6,7 +6,8 @@ var styledown = require('gulp-styledown');
 gulp.task('sassdoc', function() {
 	return gulp.src('./src/css/**/*.scss')
 		.pipe(sassdoc({
-			dest: './documentation/api'
+			dest: './documentation/api',
+			theme: 'sassdoc-theme-example'
 		}))
 		.pipe(sass())
 		.pipe(gulp.dest('./dist/css'));
