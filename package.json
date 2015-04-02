@@ -18,8 +18,9 @@
     "sassdoc": "^2.1.7",
 
     "grunt": "~0.4.2",
-    "grunt-contrib-sass": "~0.6.0",
     "grunt-styledown": "~0.0.3",
+    "grunt-sass": "~0.18.1",
+    "grunt-contrib-concat": "~0.5.1",
     "load-grunt-tasks": "~0.2.0"
   }
 

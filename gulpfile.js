@@ -14,10 +14,11 @@ gulp.task('sassdoc', function() {
 });
 
 gulp.task('styledown', function() {
-	return gulp.src('./src/css/**/*.scss')
+	// typically you'd glob everything here, but for this demo, we're keeping it pointed
+	return gulp.src('./src/css/modules/*.scss')
 		.pipe(styledown({
-			config: 'config.md',
-			filename: 'index.html'
+			config: './src/css/style-guide.scss',
+			filename: 'gulp.html'
 		}))
 		.pipe(gulp.dest('./documentation/style-guide/'));
 });

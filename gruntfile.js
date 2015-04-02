@@ -5,19 +5,6 @@ module.exports = function(grunt) {
 
 		pkg: grunt.file.readJSON('package.json'),
 
-		styledown: {
-			build: {
-				files: {
-					'dist/styleguide/index.html': ['src/style-guide.scss']
-				},
-				options: {
-					css: ['dist/css/style.css', 'dist/css/style-guide.css'],
-					js: 'dist/js/style-guide.js',
-					title: 'Style Guide'
-				}
-			},
-		},
-
 		// set up sass task for initial sass processing
 		sass: {
 			dist: {
@@ -30,7 +17,30 @@ module.exports = function(grunt) {
 					'dist/css/style-guide.css': 'src/css/style-guide.scss'
 				},
 			}
-		}
+		},
+
+		styledown: {
+			build: {
+				files: {
+					'./documentation/style-guide/grunt.html': ['src/css/modules/_buttons.scss']
+				},
+				options: {
+					config: 'src/css/style-guide.scss',
+					title: 'TEST Demo'
+				}
+			},
+		},
+
+		// concatenate any plugins or libraries in /vendor with your scripts
+		// (we're really only moving a single file in this example, but whatevs.)
+	    concat: {
+	      dist: {
+	        src: [
+	          'src/js/style-guide.js',
+	        ],
+	        dest: 'dist/js/style-guide.js'
+	      }
+	    }
 
 	});
 
@@ -39,9 +49,5 @@ module.exports = function(grunt) {
 	require('load-grunt-tasks')(grunt);
 
 	// Default Task is basically a rebuild
-	grunt.registerTask('default', [ 'jshint', 'concat', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'imagemin']);
-
-	// dev task does it all, polls for updates, and starts up the livereload server
-	grunt.registerTask('dev', ['connect', 'watch']);
-
+	grunt.registerTask('default', ['sass', 'styledown', 'concat']);
 };
