@@ -1,6 +1,6 @@
 /// Pink
 /// @type Color
-$pink: #dd5a6f;
+$pink: #CB6598;
 
 
 /// Purple
@@ -18,9 +18,13 @@ $yellow: #ffc93c;
 $black: #333;
 
 
+/// Green
+/// @type Color
+$green: #2C5916;
+
 /// Primary color
 /// @type Color
-$primary-color: $pink;
+$primary-color: darken($pink, 20%);
 
 
 /// Primary color
@@ -30,7 +34,7 @@ $secondary-color: $yellow;
 
 /// Primary color
 /// @type Color
-$tertiary-color: $purple;
+$tertiary-color: $green;
 
 
 /// Light grey
