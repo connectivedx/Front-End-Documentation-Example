@@ -31,6 +31,16 @@ module.exports = function(grunt) {
 			},
 		},
 
+		sassdoc: {
+			default: {
+				src: './src/css/**/*.scss',
+				options: {
+					dest: 'documentation/sassdoc-grunt',
+					theme: './sassdoc-theme-example'
+				}
+			}
+		},
+
 		// concatenate any plugins or libraries in /vendor with your scripts
 		// (we're really only moving a single file in this example, but whatevs.)
 	    concat: {
@@ -49,5 +59,5 @@ module.exports = function(grunt) {
 	require('load-grunt-tasks')(grunt);
 
 	// Default Task is basically a rebuild
-	grunt.registerTask('default', ['sass', 'styledown', 'concat']);
+	grunt.registerTask('default', ['sass', 'styledown', 'sassdoc', 'concat']);
 };
