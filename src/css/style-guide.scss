@@ -14,7 +14,8 @@
  * ### Body
  *
  *		section.wrapper
- *			div.row
+ *			div.row.text-center
+ *				img(src='../../sassdoc-theme-example/assets/images/pdx-sass-logo.png').logo
  *				h1 PDXSass Style Guide Demo
  *
  *			div.row
@@ -43,4 +44,13 @@ code.sg {
 	background-color: #f0f0f0;
 	border: 1px solid #e0e0e0;
 	color: #555;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.logo {
+	max-width: 350px;
+	width: 100%;
 }

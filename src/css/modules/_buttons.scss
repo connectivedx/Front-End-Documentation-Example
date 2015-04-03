@@ -20,6 +20,7 @@
 	display: inline-block;
 	font-family: $baseFontFamily;
 	@include font-size(18);
+	line-height: $lineHeight;
 	margin-right: em(5, (context: 18));
 	padding: em(6 12, (context: 18));
 	text-align: center;
@@ -105,7 +106,6 @@ button,
 	@extend %button-config;
 	background-color: color(secondary);
 	border: 1px solid darken(color(secondary), 10%);
-	color: black;
 
 	&:hover,
 	&:active,
