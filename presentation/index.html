@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Getting Started with Sassdoc and Styledown</title>
+
+		<meta name="description" content="A modular, scalable front-end framework for the modern web">
+		<meta name="author" content="ISITE Design">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/phoenix.css" id="theme">
+		<link rel="stylesheet" href="plugin/syntaxhighlighter/shCore.css">
+		<link rel="stylesheet" href="plugin/syntaxhighlighter/shThemeMidnight.css">
+		<link rel="stylesheet" href="css/print/paper.css" media="print">
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<div class="first-slide-images">
+						<img src="img/sassdoc-logo.svg" alt="Sassdoc Logo" class="plain sassdoc-creepin fragment">
+						<img src="img/styleguide-examples.png" alt="Sassdoc Logo" class="plain">
+					</div>
+					<!-- <img src="img/logo-horizontal-small.png" alt="Phoenix by ISITE Design" class="plain"> -->
+					<h2>Getting Started with Sassdoc &amp; Styledown</h2>
+				</section>
+
+				<section id="overview">
+					<h2>Documentation vs. Style Guide</h2>
+					<div class="group">
+						<h4 class="fragment">Different audiences</h4>
+						<p class="fragment">They can both be for developers, but one&rsquo;s <strong>really</strong> for developers.</p>
+					</div>
+
+					<div class="group">
+						<h4 class="fragment">Different benefits</h4>
+						<ul>
+							<li class="fragment">Documentation&rsquo;s technical and aimed at developers</li>
+							<li class="fragment">Style Guides are visual and aimed at everyone</li>
+						</ul>
+					</div>
+				</section>
+
+				<section id="what-we-cover">
+					<h2>What we&rsquo;ll cover</h2>
+					<ul>
+						<li class="fragment">Annotations, syntax, and what you can document</li>
+						<li class="fragment">How to integrate into build pipelines</li>
+						<li class="fragment">Gotchas that can trip you up</li>
+						<li class="fragment">Theming possibilities and difficulties</li>
+						<li class="fragment">Our features wishlist</li>
+					</ul>
+				</section>
+
+				<section>
+					<section id="sassdoc">
+						<img src="img/sassdoc-logo.svg" alt="Sassdoc Logo" class="plain">
+					</section>
+
+					<section id="sassdoc-what-can-you-document">
+						<h2>What can you document?</h2>
+						<ul>
+							<li class="fragment">Variables</li>
+							<li class="fragment">Placeholders</li>
+							<li class="fragment">Functions</li>
+							<li class="fragment">Mixins</li>
+						</ul>
+					</section>
+
+					<section id="sassdoc-syntax">
+						<h2>Syntax</h2>
+						<ul>
+							<li class="fragment">Documentation is built from inline annotations as comments in your Sass files</li>
+							<li class="fragment">Comments must begin with three forward slashes ( /// )</li>
+							<li class="fragment">Annotation type is denoted with @annotation-type (e.g. @group), except for description</li>
+							<li class="fragment">File-level annotations can be defined with bookending four forward slashes ( //// )</li>
+						</ul>
+					</section>
+
+					<section id="sassdoc-variables">
+						<h2>Variables</h2>
+						<pre class="brush: scss;">
+							/// Variable description.
+							/// @type variable-type
+							$variableName: variableValue;
+
+							/// Map description.
+							/// @type Map
+							/// @prop {prop-type} prop1 [defaultValue]
+							/// @prop {prop-type} prop2 [defaultValue]
+							$mapName: (
+								prop1: defaultValue,
+								prop2: defaultValue
+							);</pre>
+					</section>
+
+					<section id="sassdoc-placeholders">
+						<h2>Placeholders</h2>
+						<pre class="brush: scss;">
+							/// Placeholder description.
+							%placeholder {
+								property: value;
+							}</pre>
+					</section>
+
+					<section id="sassdoc-functions">
+						<h2>Functions</h2>
+						<pre class="brush: scss;">
+							/// Function description.
+							/// @param {Param type} $paramName - Parameter description.
+							/// @return {Return type} Return description.
+							/// @example
+							/// functionName(paramValue)
+							/// // returns comment
+							@function functionName($paramName) {
+								@return returnValue;
+							}</pre>
+					</section>
+
+					<section id="sassdoc-mixins">
+						<h2>Mixins</h2>
+						<pre class="brush: scss;">
+							/// Mixin description.
+							/// @param {Param type} $paramName - Parameter description.
+							/// @example
+							/// mixinName(paramValue)
+							@mixin mixinName($paramName) {
+								...
+							}</pre>
+					</section>
+
+					<section id="sassdoc-additional-annotations">
+						<h2>Additional Annotations</h2>
+						<ul>
+							<li class="fragment">@group - Allows for high-level grouping of documented items.</li>
+							<li class="fragment">@link - A link related to the documented item, e.g. a gist, Stack Overflow post, or blog post.</li>
+							<li class="fragment">@access - Define as public or private.  You can restrict which access levels get compiled and output in the docs.</li>
+							<li class="fragment">Full list available <a href="http://sassdoc.com/annotations/" target="_blank">on the Sassdoc site</a></li>
+						</ul>
+					</section>
+
+					<section id="sassdoc-compiling-grunt">
+						<h2>Compiling - Grunt</h2>
+							<pre class="brush: jscript;">
+								module.exports = function(grunt) {
+									grunt.initConfig({
+										pkg: grunt.file.readJSON('package.json'),
+										sassdoc: {
+											default: {
+												src: './src/css/**/*.scss',
+												options: {
+													dest: 'documentation/sassdoc-grunt',
+													theme: './sassdoc-theme-example'
+												}
+											}
+										}
+									});
+
+									require('load-grunt-tasks')(grunt);
+									grunt.registerTask('default', ['sassdoc']);
+								};</pre>
+							<p class="fragment"><strong>NOTE:</strong> requires Grunt CLI, Grunt, and Grunt Sassdoc</p>
+						</ol>
+					</section>
+
+					<section id="sassdoc-compiling-gulp">
+						<h2>Compiling - Gulp</h2>
+							<pre class="brush: jscript;">
+								var gulp = require('gulp');
+								var sassdoc = require('sassdoc');
+
+								gulp.task('sassdoc', function() {
+									return gulp.src('./src/css/**/*.scss')
+										.pipe(sassdoc({
+											dest: './documentation/sassdoc-gulp'
+										}));
+								});
+
+								gulp.task('default', ['sassdoc']);</pre>
+							<p class="fragment"><strong>NOTE:</strong> requires Gulp and Sassdoc</p>
+							<p class="fragment"><strong>GOTCHA:</strong> make sure to pipe Sassdoc into your stream before compiling Sass code, if you put them in a single stream</p>
+					</section>
+
+					<section id="sassdoc-theming">
+						<h2>Theming</h2>
+						<ul>
+							<li class="fragment">
+								<a href="https://github.com/SassDoc/sassdoc-theme-blank" target="_blank">Blank theme</a>
+							</li>
+							<li class="fragment">
+								<a href="https://github.com/SassDoc/generator-sassdoc-theme" target="_blank">Theme generator</a>
+							</li>
+							<li class="fragment">
+								<a href="https://github.com/SassDoc/sassdoc-theme-default" target="_blank">Default theme</a>
+							</li>
+						</ul>
+
+						<aside class="notes">
+							<ul>
+								<li>maximum flexibility, maximum setup</li>
+								<li>generates the blank theme with a scaffolded Gulp or Grunt build process and some basic markup; no CSS.  Maximum flexibility, slightly less setup</li>
+								<li>a great starting point that can be customized.  Less flexibility, very little setup.</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section id="sassdoc-default-theme">
+						<h3>Example Default Theme</h3>
+						<img src="img/default-sassdoc-theme.jpg" alt="Default Sassdoc Theme" class="plain">
+					</section>
+
+					<section id="sassdoc-theming-editing-default">
+						<h2>Editing the Default Theme</h2>
+						<ol>
+							<li class="fragment">Open a console and navigate to your Sassdoc theme directory.</li>
+							<li class="fragment">Execute npm install to get its dependencies.</li>
+							<li class="fragment">Edit the markup ( /views ), CSS ( /scss ), and assets ( /assets ) as desired.</li>
+							<li class="fragment">Execute the "make" command to compile the HTML, CSS, and JavaScript.</li>
+							<li class="fragment">Execute your build script to apply the new theme to your Sassdocs.</li>
+							<li class="fragment"><strong>NOTE:</strong> the color scheme is located in /scss/utils/_variables.scss</li>
+						</ol>
+					</section>
+
+					<section id="sassdoc-feature-wishlist">
+						<h2>Feature Wishlist</h2>
+						<ol>
+							<li class="fragment">Better documentation of maps as parameters (<a href="https://github.com/SassDoc/sassdoc/issues/386" target="_blank">#386</a>)</li>
+							<li class="fragment">Easier theming
+								<ul>
+									<li class="fragment">Possibly happening as part of <a href="https://github.com/SassDoc/sassdoc/issues/272" target="_blank">#272</a></li>
+									<li class="fragment">Pass in color scheme as parameters</li>
+									<li class="fragment">Add a logo to the default theme with a parameterized option</li>
+								</ul>
+							</li>
+							<li class="fragment">More granular control over sorting</li>
+						</ol>
+					</section>
+
+				</section>
+
+				<section>
+					<section id="style-down">
+						<h2>Style Guides</h2>
+						<img src="img/styleguide-examples.png" alt="Styleguides" class="plain">
+					</section>
+
+					<section id="why-a-style-guide">
+						<h2>Why a Style Guide?</h2>
+						<p class="fragment">There are a number of benefits. Here are just a few:</p>
+						<ul>
+							<li class="fragment">Single point of reference for testing site components across breakpoints and visual regressions</li>
+							<li class="fragment">Documents the lexicon for site components</li>
+							<li class="fragment">Provides a deliverable visual reference for both clients and developers</li>
+							<li class="fragment">Makes for a good handoff from front-end to back-end</li>
+							<li class="fragment">Makes for a good on-boarding document when bringing on new team members</li>
+						</ul>
+					</section>
+
+					<section id="criteria">
+						<h2>Our Criteria</h2>
+						<ul>
+							<li class="fragment">Easy enough it&rsquo;ll be used</li>
+							<li class="fragment">Fits our existing workflow</li>
+							<li class="fragment">Works with our existing build pipeline</li>
+							<li class="fragment">Valuable as a client deliverable</li>
+						</ul>
+					</section>
+
+					<section id="the-choosen-one">
+						<h2>Candidates</h2>
+						<ul>
+							<li>StyleDown</li>
+							<li>StyleDocco</li>
+							<li>Holograms</li>
+							<li>KSS</li>
+							<li>SourceJS</li>
+							<li>Others&hellip;so many others</li>
+						</ul>
+					</section>
+
+					<section id="style-guides-union">
+						<h3>This guy&rsquo;s on to something</h3>
+						<img src="img/style-guiders-of-the-world-unite.png" alt="A fine, fine idea." class="plain">
+						<p><small><a href="https://github.com/styledown/styledown/issues/8#issuecomment-73017437" target="_blank">Source</a></small></p>
+					</section>
+
+					<section id="winner">
+						<h2>We went with StyleDown.</h2>
+						<p class="fragment">Obviously.</p>
+					</section>
+
+					<section id="easy">
+						<h4>Criterion #1: It&rsquo;s easy</h4>
+						<h3 class="fragment">&#10003; StyleDown&rsquo;s pretty easy</h3>
+						<ul>
+							<li class="fragment">It parses code comments from inside your stylesheets</li>
+							<li class="fragment">Requires at minimum just a title for whatever you&rsquo;re documenting</li>
+							<li class="fragment">Everything else is optional</li>
+							<li class="fragment">Can parse example markup in either Jade or Markdown&hellip;</li>
+							<li class="fragment">&hellip;which means it also parses HTML, making copy and paste easy</li>
+						</ul>
+					</section>
+
+					<section id="workflow">
+						<h4>Criterion #2: Fits our workflow</h4>
+						<h3 class="fragment">&#10003; StyleDown feels like how we work</h3>
+						<ul>
+							<li class="fragment">It&rsquo;s all inline, so you can document (or update documentation) as you work</li>
+							<li class="fragment">Since we&rsquo;re already writing comments in our partials as we go, it&rsquo;s just a matter of getting the syntax down</li>
+						</ul>
+					</section>
+
+					<section id="syntax-sidebar">
+						<h2>Let&rsquo;s talk syntax!</h2>
+						<ul>
+							<li class="fragment">Headings require a trailing colon</li>
+							<li class="fragment">Whitespace is important: do <strong>not</strong> mix spaces and tabs</li>
+							<li class="fragment">Nested HTML (p > strong) is parsed onto its own line and any spaces that follow them in your documentation are stripped out — non-breaking spaces are your friends here</li>
+						</ul>
+					</section>
+
+					<section id="styledown-example">
+						<h2>Comment examples:</h2>
+						<pre class="brush: scss;">
+							/***
+							 * Buttons:
+							 */
+
+							/**
+							 * Default Button:
+							 * `%button-config`
+							 * <p>Sets up default buttons styles. Applied to `button` and `.btn`.</p>
+							 * <p>Additional button styles extend this base.</p>
+							 *
+							 *		@example
+							 *		<div>
+							 *			<button>I&rsquo;m a Button</button>
+							 *			<a class="btn">I&rsquo;m a link</a>
+							 *		</div>
+							 */</pre>
+					</section>
+
+					<section id="styledown-example-output">
+						<img src="img/btn.png" class="plain" alt="Final styledown output">
+					</section>
+
+					<section id="styledown-example-output-expanded">
+						<img src="img/btn-lg.png" class="plain" alt="Final styledown output, with code sample">
+					</section>
+
+					<section id="brief-config-aside">
+						<h2>Let&rsquo;s talk config!</h2>
+						<ul>
+							<li class="fragment">Again, all inside a comment block</li>
+							<li class="fragment">Can be a Markdown or Sass/CSS file</li>
+							<li class="fragment">Can be anywhere in your project</li>
+							<li class="fragment"># Styleguide Options is required at start of block</li>
+							<li class="fragment">### Head & ### Body signal&mdash;wait for it&mdash;the head and body</li>
+							<li class="fragment">You can link any assets you need (paths relative to output HTML)</li>
+							<li class="fragment"><strong>Must include</strong> a div with an sg-content="sg-content" attribute.</li>
+						</ul>
+					</section>
+
+					<section id="config-example">
+						<pre class="brush: scss;">
+							/**
+							 * # Styleguide options
+							 *
+							 * ### Head
+							 *
+							 *		meta(name="viewport" content="width=device-width, initial-scale=1")
+							 *		link(rel="stylesheet" href="../../Assets/dist/css/style.css")
+							 *		link(rel='stylesheet' href='https://cdn.rawgit.com/styledown/styledown/v1.0.0/data/styledown.css')
+							 *		link(rel="stylesheet" href="../../Assets/dist/css/style-guide.css")
+							 *		link(rel='icon' type='image/png' href='../../Assets/dist/img/content/favicon.png')
+							 *		script(src='../../Assets/dist/js/head.js')
+							 *		link(rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700")
+							 *		script(src='https://cdn.rawgit.com/styledown/styledown/v1.0.0/data/styledown.js')
+							 *
+							 * ### Body
+							 *
+							 *		section.wrapper
+							 *			div.row
+							 *				div.eight.columns.centered
+							 *					a(href='../../index.php')
+							 *						img(src='../../Assets/dist/img/content/logo-placeholder.png' srcset='../../Assets/dist/img/content/logo-placeholder@2x.png 2x').img-align-center
+							 *
+							 *			div.row
+							 *				div#styleguides(sg-content)
+							 *
+							 *		script(src='../../Assets/dist/js/main.js')
+							 *		script(src='../../Assets/dist/js/style-guide.js')
+						*/</pre>
+					</section>
+
+					<section id="build">
+						<h4>Criterion #3: Fits our build</h4>
+						<h3 class="fragment">&#10003; StyleDown plays (pretty) well with Gulp</h3>
+						<ul>
+							<li class="fragment">It&rsquo;s written in Node, so, you know</li>
+							<li class="fragment">The particular Gulp package we chose&mdash;gulp-styledown&mdash;is at version 0.0.2 and has all of 9 commits over about one week some time last summer, but we were choosing from a field of one, so ¯\_(ツ)_/¯</li>
+							<li class="fragment">(It totally works, pinkie swear)</li>
+						</ul>
+					</section>
+
+					<section id="sd-gulp-example">
+						<h2>Gulp Example</h2>
+						<pre class="brush: jscript;">
+							var gulp = require('gulp');
+							var styledown = require('gulp-styledown');
+
+							gulp.task('styledown', function() {
+								return gulp.src(['./src/css/style.scss', './src/css/**/*.scss'])
+									.pipe(styledown({
+										config: './css/style-guide.scss',
+										filename: '../../documentation/style-guide/index.html'
+									})));
+							});
+
+							gulp.task('default', ['styledown']);</pre>
+							<p class="fragment"><strong>NOTE:</strong> requires Gulp and Gulp Styledown</p>
+					</section>
+
+					<section id="sd-grunt-example">
+						<h2>Grunt Example</h2>
+						<pre class="brush: jscript;">
+							module.exports = function(grunt) {
+								grunt.initConfig({
+									pkg: grunt.file.readJSON('package.json'),
+									styledown: {
+										build: {
+											files: {
+												'./documentation/style-guide/grunt.html': ['src/css/style.scss', 'src/css/modules/_buttons.scss']
+											},
+											options: {
+												config: 'src/css/style-guide.scss'
+											}
+										},
+									}
+								});
+
+								require('load-grunt-tasks')(grunt);
+								grunt.registerTask('default', ['styledown']);
+							};</pre>
+							<p class="fragment"><strong>NOTE:</strong> requires Grunt CLI, Grunt, and Grunt Styledown</p>
+					</section>
+
+					<section id="sd-deliverable">
+						<h4>Criterion #4: Valuable Deliverable</h4>
+						<h3 class="fragment">&#10003; StyleDown makes a pretty &amp; handy document</h3>
+					</section>
+
+					<section id="sd-theming">
+						<h2>Let&rsquo;s talk about theming!</h2>
+						<ul>
+							<li class="fragment">Includes a pretty basic stylesheet that looks good out of the box</li>
+							<li class="fragment">Customizing is super easy: just link up a stylesheet in your config and you&rsquo;re set</li>
+							<li class="fragment">Since your config can be anything, we&rsquo;ve chosen to make it a Sass file and keep our custom styles there</li>
+					</section>
+
+					<section id="default-sd-theme">
+						<h3>Example base theme</h3>
+						<img src="img/default-sd-theme.png" alt="Example default StyleDown theme" class="plain">
+					</section>
+
+					<section id="sd-wishlist">
+						<h2>Styledown Wishlist</h2>
+						<ol>
+							<li class="fragment">Ordering of your docs (<a href="https://github.com/styledown/styledown/issues/11" target="_blank">#11</a>)</li>
+							<li class="fragment">Dynamic table of contents</li>
+							<li class="fragment">Update the title tag (<a href="https://github.com/styledown/styledown/issues/2" target="_blank">#2</a>) <span class="fragment"> &mdash; this is available in the Grunt package</span></li>
+						</ol>
+					</section>
+
+				</section>
+
+				<section id="fin">
+					<img src="img/logo-horizontal-small.png" alt="Phoenix by ISITE Design" class="plain">
+					<p>To see integration of Sassdoc and Styledown in a large project, check out <a href="https://github.com/connectivedx/Phoenix" target="_blank">Phoenix on Github</a></p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/syntaxhighlighter/shCore.js', async: true },
+					{ src: 'plugin/syntaxhighlighter/shBrushBash.js', async: true },
+					{ src: 'plugin/syntaxhighlighter/shBrushSass.js', async: true },
+					{ src: 'plugin/syntaxhighlighter/shBrushJScript.js', async: true, callback: function() { SyntaxHighlighter.all(); } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
